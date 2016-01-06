@@ -1,0 +1,24 @@
+{
+  "folders":
+  [
+    {
+      "path": "./"
+    }
+  ],
+  "build_systems":
+  [
+      {
+        "name": "Build",
+        "cmd": "fsc ExchangeRate.fs Types.fs CalculationCore.fs Logger.fs IfobsImport.fs BifitImport.fs Main.fs -r ..\\lib\\Excel.dll -r System.Xml.Linq.dll -o:..\\lib\\uspa.exe",
+        "file_regex": "^((?:.*)\\.(?:fs(?:i|x)?))\\(([0-9]*),([0-9]*)\\): (.*)$",
+        "encoding": "cp866",
+        "variants":
+            [
+                {
+                    "name": "Run",
+                    "cmd": "..\\lib\\uspa.exe"                    
+                }
+            ]        
+      }
+  ]
+}

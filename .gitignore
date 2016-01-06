@@ -1,0 +1,6 @@
+data
+
+*.exe
+
+# Sublime
+*.sublime-workspace
