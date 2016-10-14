@@ -76,6 +76,4 @@ let printIncome overallValuation =
     printfn "%s" "grouped by quarter"
     printIncome incomeByQuarter
 
-printfn "%s" "aaa"
-
 Seq.append ifobsValuation bifitValuation |> printIncome

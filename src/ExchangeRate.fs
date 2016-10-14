@@ -6,9 +6,10 @@ open System.Xml.Linq
 
 let getNBUrate (date: DateTime) currencyCode =
     let httpClient = new WebClient()
-    let url = String.Format("http://buhgalter911.com/Services/ExchangeRateNBU.asmx/GetRates?date={0:MM/dd/yyyy}", date)
-    let response = httpClient.DownloadString url
+    let url = String.Format("https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?valcode={1}&date={0:yyyyMMdd}", date, currencyCode)
     
+    let response = httpClient.DownloadString url
+
     let getElementsByName elementName (root: XContainer) =
         root.Descendants (XName.Get(elementName))
 
@@ -17,10 +18,7 @@ let getNBUrate (date: DateTime) currencyCode =
         
     response
         |> XDocument.Parse
-        |> getElementsByName "NBU_GRV"
-        |> Seq.find (fun xNode -> (getElementValue "CodeLit" xNode) = currencyCode)        
-        |> fun node ->    
-            let amount = node |> getElementValue "Amount" |> Convert.ToDecimal
-            let cost = node |> getElementValue "Exch" |> Convert.ToDecimal
-
-            cost / amount
+        |> getElementsByName "exchange" |> Seq.head
+        |> getElementsByName "currency"|> Seq.head
+        |> getElementValue "rate"
+        |> Convert.ToDecimal
