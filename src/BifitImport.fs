@@ -48,13 +48,13 @@ let loadDocumentsFromBifit localCurrencyDocumentsCsvFileName foreignCurrencyDocu
     (filteredLocalReceipts, currencyReceipts)
 
 let classifyBifitReceipt (date, amount, details) =    
-    let voluntarySaleRegex = new Regex(".*продажу валюти ([ .0-9]+) .*(зг.*) заявк?и.*")
+    let voluntarySaleRegex = new Regex(".*продажу (валюти|СПОТ) ([ .0-9]+) .*(зг.*) заявк?и.*")
     let mandatorySaleRegex = new Regex(".*продажу валюти ([ .0-9]+) .*")
     
     let voluntaryMatch = voluntarySaleRegex.Match details
 
     if voluntaryMatch.Success then        
-        let currentAmountAsString = voluntaryMatch.Groups.[1].Value.Replace(" ", "")
+        let currentAmountAsString = voluntaryMatch.Groups.[2].Value.Replace(" ", "")
         printfn "try %s\n" currentAmountAsString
         let currencyAmount =  Convert.ToDecimal(currentAmountAsString)
 
